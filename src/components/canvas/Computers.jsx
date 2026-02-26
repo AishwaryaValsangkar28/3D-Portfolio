@@ -1,18 +1,16 @@
-import { Suspense, useEffect, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Preload, useGLTF, Html } from '@react-three/drei'; // Import Html from drei
-import CanvasLoader from '../Loader';
-import * as THREE from 'three'; 
+import React, { Suspense, useEffect, useState } from "react";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
 
-const Computers = ({isMobile}) => {
-  const computer = useGLTF('./desktop_pc/scene.gltf')
+import CanvasLoader from "../Loader";
+
+const Computers = ({ isMobile }) => {
+  const computer = useGLTF("/desktop_pc/scene1.glb");
 
   return (
     <mesh>
-      <ambientLight intensity={1.99} 
-        groundColor="black" />
-      <pointLight intensity={3} />
-      <spotLight 
+      <hemisphereLight intensity={1.99} groundColor='black' />
+      <spotLight
         position={[-20, 50, 10]}
         angle={0.12}
         penumbra={1}
@@ -20,18 +18,18 @@ const Computers = ({isMobile}) => {
         castShadow
         shadow-mapSize={1024}
       />
-      <primitive 
+      <pointLight intensity={1} />
+      <primitive
         object={computer.scene}
-        scale={isMobile ? 1 : 0.75}
-        position={isMobile ? [0, -2.2, -1.5] : [0, -3.25, -1.5]}
-        rotation={[-0.01, -0.2, -0.1]} 
+        scale={isMobile ? 0.7 : 0.75}
+        position={isMobile ? [0, -3, -2.2] : [0, -3.25, -1.5]}
+        rotation={[-0.01, -0.2, -0.1]}
       />
     </mesh>
   );
 };
 
 const ComputersCanvas = () => {
-
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -57,10 +55,10 @@ const ComputersCanvas = () => {
 
   return (
     <Canvas
-      style={{ width: "100%", height: "100%" }}
-      frameloop="demand"
+      frameloop='demand'
       shadows
-      camera={{ position: [0, 0, 6], fov: 50 }}
+      dpr={[1, 2]}
+      camera={{ position: [20, 3, 5], fov: 25 }}
       gl={{ preserveDrawingBuffer: true }}
     >
       <Suspense fallback={<CanvasLoader />}>
@@ -69,11 +67,12 @@ const ComputersCanvas = () => {
           maxPolarAngle={Math.PI / 2}
           minPolarAngle={Math.PI / 2}
         />
-        <Computers isMobile={isMobile}/>
+        <Computers isMobile={isMobile} />
       </Suspense>
+
       <Preload all />
     </Canvas>
-  )
-}
+  );
+};
 
 export default ComputersCanvas;
