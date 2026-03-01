@@ -86,7 +86,7 @@ import { OrbitControls, useGLTF } from "@react-three/drei";
 import CanvasLoader from "../Loader";
 
 const Computers = ({ isMobile }) => {
-  const computer = useGLTF("/desktop_pc/scene4.glb");
+  const computer = useGLTF("/desktop_pc/scene4-optimized.glb");
 
   return (
     <>
@@ -119,7 +119,7 @@ const ComputersCanvas = () => {
 
   return (
     <Canvas
-      dpr={[1, 2]}
+      dpr={[1,2]}
       camera={{ position: [20, 3, 5], fov: 25 }}
       gl={{ antialias: false }}
     >
